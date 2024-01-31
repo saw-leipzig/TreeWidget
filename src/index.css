@@ -1,0 +1,13 @@
+
+.tags:empty {
+  display:none;
+}
+
+.r6o-widget.tree {
+  background-color: blueish-white;
+  border-bottom:1px solid lightgrey-border;
+  padding:1px 3px;
+  display:flex;
+
+
+}
