@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Annotorious OpenSeadragon Example</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/openseadragon@2.4.2/build/openseadragon/openseadragon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.5.16/dist/openseadragon-annotorious.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.5.16/dist/annotorious.min.css" rel="stylesheet">
+    <script src="TreeWidget.js"></script>
+    <script>
+    const tree = [
+      {
+        "label": "VP Accounting",
+        "tagClassName": "special",
+        "children": [
+          {
+            "label": "iWay",
+            "children": [
+              {
+                "label": "Universidad de Especialidades del Espíritu Santo",
+                "children": [
+                  {
+                    "label": "Baghdad College of Pharmacy",
+                    "children": [
+                      {
+                        "label": "Marmara University"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "KDB",
+            "children": [
+              {
+                "label": "Latvian University of Agriculture"
+              },
+              {
+                "label": "Dublin Institute of Technology"
+              }
+            ]
+          },
+          {
+            "label": "Justice",
+            "children": [
+              {
+                "label": "Baylor University"
+              },
+              {
+                "label": "Massachusetts College of Art"
+              },
+              {
+                "label": "Universidad Técnica Latinoamericana"
+              },
+              {
+                "label": "Saint Louis College"
+              },
+              {
+                "label": "Scott Christian University"
+              }
+            ]
+          },
+        ]
+      }
+    ];
+
+      window.onload = function() {
+        var viewer = OpenSeadragon({
+          id: "openseadragon",
+          prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon@2.4/build/openseadragon/images/",
+          tileSources: {
+            type: "image",
+            url: "https://cdn.jsdelivr.net/npm/@recogito/annotorious-openseadragon@2.5.16/dist/1280px-Hallstatt.jpg"
+          }
+        });
+        let tw = TreeWidget
+        var anno = OpenSeadragon.Annotorious(viewer, {
+          drawOnSingleClick: true,
+          widgets: [{ widget: tw, tree: tree }]
+        });
+        anno.setDrawingEnabled(true);
+        anno.on('createAnnotation', function(a, overrideId) {
+          console.log('created', a);
+        });
+
+        anno.on('updateAnnotation', function(annotation, previous) {
+          console.log('updated', annotation);
+        });
+
+        anno.on('selectAnnotation', function(annotation, shape) {
+          console.log('selected');
+        });
+
+        anno.on('cancelSelected', function(a) {
+          console.log('cancelSelected');
+        });
+
+        anno.on('mouseEnterAnnotation', function(annotation, shape) {
+          console.log('mouseEnter');
+        });
+
+        anno.on('mouseLeaveAnnotation', function(annotation, shape) {
+          console.log('mouseLeave');
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="column">
+      <h1>Annotorious wit Tree | OpenSeadragon Example</h1>
+
+      <div id="openseadragon" style="width: 640px; height: 480px;"></div>
+      <canvas id="output"></canvas>
+    </div>      
+  </body>
+</html>
